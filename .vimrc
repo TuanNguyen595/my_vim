@@ -1,3 +1,4 @@
+let mapleader = " "
 set number
 set relativenumber
 set tabstop=2
@@ -10,6 +11,8 @@ set mouse=a
 
 call plug#begin('~/.vim/plugged')
 Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 "Plug 'morhetz/gruvbox'
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
@@ -31,7 +34,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Multiple Plug commands can be written in a single line using | separators
 "Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'preservim/nerdtree'
 "Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 call plug#end()
 
@@ -50,11 +53,15 @@ call plug#end()
 "let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['nerdtree'] = '#'
 
 
-autocmd vimenter * NERDTree
+"autocmd vimenter * NERDTree
 filetype plugin indent on
 autocmd FileType * setlocal expandtab tabstop=2 shiftwidth=2
 "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 map <C-n> :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeFind<CR>
+" Only update NERDTree when it's open and focused
+" autocmd BufEnter * if exists("t:NERDTreeBufName") && bufname() !=# t:NERDTreeBufName && getbufvar(winbufnr(winnr()), '&filetype') !=# 'nerdtree' | silent! NERDTreeFind | endif
+
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -71,3 +78,20 @@ inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
 nnoremap <silent> K :call CocActionAsync('doHover')<CR>
 " Show signature help when typing function parameters
 inoremap <silent><expr> <C-k> coc#refresh()
+
+" Jump to definition
+nmap <silent> gd <Plug>(coc-definition)
+
+" Jump to declaration
+nmap <silent> <C-]> <Plug>(coc-declaration)
+
+" Show documentation
+nnoremap <silent> K :call CocActionAsync('doHover')<CR>
+
+" Rename symbol
+nmap <leader>rn <Plug>(coc-rename)
+
+nnoremap <C-p> :Files<CR>
+nnoremap <leader>fg :GFiles<CR>
+nnoremap <C-b> :Buffers<CR>
+nnoremap <leader>fl :Lines<CR>
